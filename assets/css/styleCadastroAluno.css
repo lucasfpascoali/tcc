@@ -1,0 +1,64 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #42EE5E;
+    color: #000;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    background-color: #fff;
+    width: 92.76vw;
+    height: 79.4vh;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#campos-group {
+    width: 46.19vw;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+input[type=text], input[type=password], input[type=date] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dotted #42EE5E;
+    font-size: 16px;
+}
+
+input[type=submit] {
+    width: 32.23vw;
+    height: 55.5vh;
+    background: transparent;
+    border: 1px solid #42EE5E;
+    border-radius: 7.5px;
+    color: #42EE5E;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+input[type=submit]:hover {
+    background: #42EE5E;
+    transition: 0.35s;
+    color: #fff;
+}
+
+input:focus {
+    outline: none;
+}

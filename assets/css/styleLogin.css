@@ -1,0 +1,78 @@
+body {
+    background-color: #42EE5E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    color: #42EE5E;
+}
+
+#loginBox {
+    display: flex;
+    margin-top: 2%;
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 15px;
+    width: 37.55vw;
+    height: 89.16vh;
+}
+
+h1 {
+    color: #000;
+    margin-top: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+#bottomBtn {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+input[type=text], input[type=password] {
+    background: transparent;
+    width: 80%;
+    border: none;
+    border-bottom: 1px dotted #42EE5E;
+    font-size: 16px;
+}
+
+input[type=submit] {
+    background: transparent;
+    width: 100%;
+    height: 12.12vh;
+    border: 1px solid #42EE5E;
+    border-radius: 7.5px;
+    color: #42EE5E;
+    font-size: 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background: #42EE5E;
+    transition: 0.35s;
+    color: #fff;
+}
+
+input:focus {
+    outline: none;
+}
+
+#resetPassword {
+    color: #42EE5E;
+    text-decoration: none;
+}
