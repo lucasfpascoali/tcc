@@ -16,21 +16,21 @@ require __DIR__ . "/../Controllers/verifyLoginController.php";
 ?>
 <h2 id="logoText" style="color: #fff;">E.E.B Apolônio Ireno Cardoso</h2>
 <main>
-        <span id="principaisBtn">
-            <a class="btn" id="novoEmprestimoBtn" href="">
-                <img src="../assets/img/simbolo-de-mais-preto64px.png" alt="símbolo de mais">
-                <h4>Novo Empréstimo</h4>    
-            </a>
-            <span id="cadastrosBtn">
-                <a class="btn" id="cadastroLivroBtn" href="#"><img src="../assets/img/livro-64px.png"
-                                                                   alt="imagem de um livro">Cadastrar Livro</a>
-                <a class="btn" id="cadastroAlunoBtn" href="./cadastroAluno.php"><img
-                            src="../assets/img/universidade64px.png" alt="imagem de um aluno">Cadastrar Aluno</a>
-            </span>
+    <span id="principaisBtn">
+        <a class="btn" id="novoEmprestimoBtn" href="">
+            <img src="../assets/img/simbolo-de-mais-preto64px.png" alt="símbolo de mais">
+            <h4>Novo Empréstimo</h4>
+        </a>
+        <span id="cadastrosBtn">
+            <a class="btn" id="cadastroLivroBtn" href="#"><img src="../assets/img/livro-64px.png"
+                alt="imagem de um livro">Cadastrar Livro</a>
+            <a class="btn" id="cadastroAlunoBtn" href="./cadastroAluno.php"><img
+                src="../assets/img/universidade64px.png" alt="imagem de um aluno">Cadastrar Aluno</a>
         </span>
+    </span>
     <span class="btn" id="mostraEmprestimosBtn">
-            <h5>Empréstimos em Andamento</h5>
-        </span>
+        <h5>Empréstimos em Andamento</h5>
+    </span>
 </main>
 </body>
 </html>
