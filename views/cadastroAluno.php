@@ -5,36 +5,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Aluno</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/cadastroAluno.css" media="screen" />
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/css/cadastroAluno.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="../assets/css/nav.css" media="screen"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php
+<?php
 
-        require __DIR__ . "/../Controllers/verifyLoginController.php";
-        require __DIR__ . "/../autoload.php";
+use Source\Core\Session;
 
-        $session = new \Source\Core\Session();
-        $message = $session->flash();
+require __DIR__ . "/../Controllers/verifyLoginController.php";
+require_once __DIR__ . "/../autoload.php";
+
+
+$session = new Session();
+$message = $session->flash();
+
+
+require __DIR__ . "./components/nav.php";
+?>
+<main>
+    <h2>Preencha os dados do Aluno:</h2>
+    <form action="../Controllers/studentController.php" method="post">
+        <?php
         if ($message) {
             echo $message->render();
         }
-    ?>
-    <h2 id="logoText" style="color: #fff;">E.E.B Apolônio Ireno Cardoso</h2>
-    <main>
-        <h1>Preencha os dados do Aluno:</h1>
-        <form action="../Controllers/studentController.php" method="post">
-            <span id="campos-group">
-                <input type="text" name="studentFirstName" id="nomeAluno" placeholder="Nome do Aluno" required>
-                <input type="text" name="studentLastName" id="sobrenomeAluno" placeholder="Sobrenome do Aluno" required>
-                <input type="text" name="studentRegister" id="matriculaAluno" placeholder="Matrícula do Aluno" required>
-                <input type="password" name="studentPassword" id="senhaAluno" placeholder="Senha do Aluno" required>
-                <input type="date" name="studentBirth" id="dataNascimentoAluno" placeholder="Data de Nascimento do Aluno" required>
-            </span>
-            <input type="submit" name="submit" id="cadastrarBtn" value="REALIZAR CADASTRO">
-        </form>
-    </main>
+        ?>
+        <div class="inputGroup">
+            <input id="nomeAluno" class="inputUser" type="text" name="studentFirstName" required>
+            <label class="labelInput" for="nomeAluno">Nome do Aluno</label>
+        </div>
+        <div class="inputGroup">
+            <input id="sobrenomeAluno" class="inputUser" type="text" name="studentLastName" required>
+            <label class="labelInput" for="sobrenomeAluno">Sobrenome do Aluno</label>
+        </div>
+        <div class="inputGroup">
+            <input id="matriculaAluno" class="inputUser" type="text" name="studentRegister" required>
+            <label class="labelInput" for="matriculaAluno">Matrícula do Aluno</label>
+        </div>
+        <div class="inputGroup">
+            <input id="senhaAluno" class="inputUser" type="password" name="studentPassword" required>
+            <label class="labelInput" for="senhaAluno">Senha do Aluno</label>
+        </div>
+        <div class="inputGroup">
+            <input id="dataNascimentoAluno" class="inputUser" type="date" name="studentBirth" required>
+            <label id="labelDataNascimentoAluno" class="labelInput" for="dataNascimentoAluno">Data de Nascimento do Aluno</label>
+        </div>
+        <input type="submit" name="submit" id="cadastrarBtn" value="CADASTRAR ALUNO">
+    </form>
+</main>
+<script crossorigin="anonymous"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

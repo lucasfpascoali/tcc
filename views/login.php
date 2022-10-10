@@ -34,7 +34,7 @@
             <label class="labelInput" for="userCpf">CPF</label>
         </div>
         <div class="inputGroup">
-            <input class="inputUser" id="userPassword" type="password" name="userPassword" minlength="8" maxlength="40" required>
+            <input class="inputUser" id="userPassword" type="password" name="userPassword" maxlength="40" required>
             <label class="labelInput" for="userPassword">Senha</label>
         </div>
         <span id="bottomBtn">

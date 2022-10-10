@@ -8,6 +8,7 @@
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" rel="stylesheet">
     <link href="../assets/css/index.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/nav.css" media="screen" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,28 +16,9 @@
 <body>
 <?php
 require __DIR__ . "/../Controllers/verifyLoginController.php";
-?>
-<nav class="navbar navbar-expand-lg navbar bg-white">
-    <div class="container-fluid">
-        <h1>E.E.B Apolônio Ireno Cardoso</h1>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                       role="button">
-                        Olá, usuário!
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Meus Dados</a></li>
-                        <li><a class="dropdown-item" href="#">Relatórios</a></li>
-                        <li><a class="dropdown-item" href="#">Gêneros Literários</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
+require __DIR__ . "./components/nav.php";
+?>
 <main>
     <section id="btnPanel">
         <div id="newLoanBtn">
@@ -54,7 +36,7 @@ require __DIR__ . "/../Controllers/verifyLoginController.php";
                     </a>
                 </div>
                 <div class="myBtn register-btn">
-                    <a class="full">
+                    <a class="full" href="./cadastroAluno.php">
                         <img class="btnIcon" src="../assets/img/btnStudent.png"/>
                         <h4>Cadastrar <br> Alunos</h4>
                     </a>
