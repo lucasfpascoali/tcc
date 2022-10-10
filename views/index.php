@@ -42,7 +42,7 @@ require __DIR__ . "./components/nav.php";
                     </a>
                 </div>
                 <div class="myBtn register-btn">
-                    <a class="full">
+                    <a class="full" href="./cadastroFuncionario.php">
                         <img class="btnIcon" id="workerIcon" src="../assets/img/btnWorker.png"/>
                         <h4>Cadastrar <br> Funcionários</h4>
                     </a>
