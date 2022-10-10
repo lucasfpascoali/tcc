@@ -2,35 +2,101 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/styleIndex.css" media="screen"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>SAB - Menu</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" rel="stylesheet">
+    <link href="../assets/css/index.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <?php
 require __DIR__ . "/../Controllers/verifyLoginController.php";
 ?>
-<h2 id="logoText" style="color: #fff;">E.E.B Apolônio Ireno Cardoso</h2>
+<nav class="navbar navbar-expand-lg navbar bg-white">
+    <div class="container-fluid">
+        <h1>E.E.B Apolônio Ireno Cardoso</h1>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       role="button">
+                        Olá, usuário!
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Meus Dados</a></li>
+                        <li><a class="dropdown-item" href="#">Relatórios</a></li>
+                        <li><a class="dropdown-item" href="#">Gêneros Literários</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <main>
-    <span id="principaisBtn">
-        <a class="btn" id="novoEmprestimoBtn" href="">
-            <img src="../assets/img/simbolo-de-mais-preto64px.png" alt="símbolo de mais">
-            <h4>Novo Empréstimo</h4>
+    <section id="btnPanel">
+        <div id="newLoanBtn">
+            <a id="newLoanLink">
+                <img alt="" id="newLoanIcon" src="../assets/img/plusIcon.png"/>
+                <h4 id="newLoanText">Novo Empréstimo</h4>
+            </a>
+        </div>
+        <div id="rowBtnPanel">
+            <div class="btn-column">
+                <div class="myBtn register-btn">
+                    <a class="full">
+                        <img class="btnIcon" src="../assets/img/btnBook.png"/>
+                        <h4>Cadastrar <br> Livros</h4>
+                    </a>
+                </div>
+                <div class="myBtn register-btn">
+                    <a class="full">
+                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <h4>Cadastrar <br> Alunos</h4>
+                    </a>
+                </div>
+                <div class="myBtn register-btn">
+                    <a class="full">
+                        <img class="btnIcon" id="workerIcon" src="../assets/img/btnWorker.png"/>
+                        <h4>Cadastrar <br> Funcionários</h4>
+                    </a>
+                </div>
+            </div>
+            <div id="vertical-line"></div>
+            <div class="btn-column">
+                <div class="myBtn manage-btn">
+                    <a class="full">
+                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <h4>Gerenciar <br> Livros</h4>
+                    </a>
+                </div>
+                <div class="myBtn manage-btn">
+                    <a class="full">
+                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <h4>Gerenciar <br> Alunos</h4>
+                    </a>
+                </div>
+                <div class="myBtn manage-btn">
+                    <a class="full">
+                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <h4>Gerenciar <br> Funcionários</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="showBtn">
+        <a class="full">
+            <h2>Empréstimos em Andamento</h2>
         </a>
-        <span id="cadastrosBtn">
-            <a class="btn" id="cadastroLivroBtn" href="#"><img src="../assets/img/livro-64px.png"
-                alt="imagem de um livro">Cadastrar Livro</a>
-            <a class="btn" id="cadastroAlunoBtn" href="./cadastroAluno.php"><img
-                src="../assets/img/universidade64px.png" alt="imagem de um aluno">Cadastrar Aluno</a>
-        </span>
-    </span>
-    <span class="btn" id="mostraEmprestimosBtn">
-        <h5>Empréstimos em Andamento</h5>
-    </span>
+    </div>
 </main>
+<script crossorigin="anonymous"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
