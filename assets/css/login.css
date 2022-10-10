@@ -50,7 +50,8 @@ form {
     transition:all .5s;
 }
 
-.inputUser:focus + .labelInput {
+.inputUser:focus + .labelInput,
+.inputUser:valid ~ .labelInput{
     margin-bottom: 0px;
     font-size: 12px;
     color: #404040;

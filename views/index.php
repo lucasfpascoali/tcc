@@ -70,19 +70,19 @@ require __DIR__ . "/../Controllers/verifyLoginController.php";
             <div class="btn-column">
                 <div class="myBtn manage-btn">
                     <a class="full">
-                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Livros</h4>
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
                     <a class="full">
-                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Alunos</h4>
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
                     <a class="full">
-                        <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                        <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Funcionários</h4>
                     </a>
                 </div>

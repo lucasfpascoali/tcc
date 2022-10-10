@@ -30,11 +30,11 @@
 
     <form action="../Controllers/loginController.php" method="post">
         <div class="inputGroup">
-            <input class="inputUser" id="userCpf" type="text" name="userCpf" maxlength="11">
+            <input class="inputUser" id="userCpf" type="text" name="userCpf" maxlength="11" required>
             <label class="labelInput" for="userCpf">CPF</label>
         </div>
         <div class="inputGroup">
-            <input class="inputUser" id="userPassword" type="password" name="userPassword" minlength="8" maxlength="40">
+            <input class="inputUser" id="userPassword" type="password" name="userPassword" minlength="8" maxlength="40" required>
             <label class="labelInput" for="userPassword">Senha</label>
         </div>
         <span id="bottomBtn">

@@ -104,6 +104,12 @@ a.full {
     height: auto;
 }
 
+.manageIcon {
+    margin-top: -20px;
+    width: 30%;
+    height: auto;
+}
+
 #workerIcon {
     width: 30%;
     margin-top: -30px;
