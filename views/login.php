@@ -40,7 +40,7 @@
         <span id="bottomBtn">
                 <input type="submit" name="login" value="ENTRAR">
                 <p><a id="resetPassword" href="">Esqueceu a senha?</a></p>
-            </span>
+        </span>
     </form>
 </main>
 </body>
