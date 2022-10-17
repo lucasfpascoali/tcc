@@ -18,53 +18,31 @@
     require __DIR__ . "/../Controllers/verifyLoginController.php";
     require_once __DIR__ . "/../autoload.php";
     require __DIR__ . "./components/nav.php";
+
+    $session = new \Source\Core\Session();
+    $message = $session->flash();
+    $genre = new \Source\Models\Genre();
+    $genres = $genre->all();
 ?>
 <main>
     <?php
-        $genreId = filter_input(INPUT_GET, 'genreId', FILTER_VALIDATE_INT);
+        $genreID = filter_input(INPUT_GET, 'genreID', FILTER_VALIDATE_INT);
 
-        if (!$genreId) {
-            require __DIR__ . "./components/newGenrePanel.php";
+        if ($genreID) {
+            $genre = $genre->findById($genreID);
         }
+        require __DIR__ . "./components/newGenrePanel.php";
     ?>
     <div id="vertical-line"></div>
-    <section class="genreItens">
-        <span class="genreRow">
-            <p>Gênero</p>
-            <span class="buttonGroup">
-                <a class="btn btn-info" style="--bs-btn-color: #fff; --bs-btn-hover-color: #fff;" href="#" role="button">Editar</a>
-                <a class="btn btn-danger" href="#" role="button">Excluir</a>
-            </span>
-        </span>
-        <span class="genreRow">
-            <p>Gênero</p>
-            <span class="buttonGroup">
-                <a class="btn btn-info" style="--bs-btn-color: #fff; --bs-btn-hover-color: #fff;" href="#" role="button">Editar</a>
-                <a class="btn btn-danger" href="#" role="button">Excluir</a>
-            </span>
-        </span>
-        <span class="genreRow">
-            <p>Gênero</p>
-            <span class="buttonGroup">
-                <a class="btn btn-info" style="--bs-btn-color: #fff; --bs-btn-hover-color: #fff;" href="#" role="button">Editar</a>
-                <a class="btn btn-danger" href="#" role="button">Excluir</a>
-            </span>
-        </span>
-        <span class="genreRow">
-            <p>Gênero</p>
-            <span class="buttonGroup">
-                <a class="btn btn-info" style="--bs-btn-color: #fff; --bs-btn-hover-color: #fff;" href="#" role="button">Editar</a>
-                <a class="btn btn-danger" href="#" role="button">Excluir</a>
-            </span>
-        </span>
-        <span class="genreRow">
-            <p>Gênero</p>
-            <span class="buttonGroup">
-                <a class="btn btn-info" style="--bs-btn-color: #fff; --bs-btn-hover-color: #fff;" href="#" role="button">Editar</a>
-                <a class="btn btn-danger" href="#" role="button">Excluir</a>
-            </span>
-        </span>
-    </section>
+    <?php
+        if ($genres) {
+            require __DIR__ . "./components/genreItensPanel.php";
+        } else {
+            echo "<section class='noGenreItens'>";
+            echo "<h3>Nenhum gênero literário cadastrado...</h3>";
+            echo "</section>";
+        }
+    ?>
 </main>
 
 <script crossorigin="anonymous"

@@ -55,7 +55,7 @@ class Genre extends Model
      */
     public function all(int $limit = 30, int $offset = 0, string $columns = "*"): ?array
     {
-        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset ",
+        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " ORDER BY name LIMIT :limit OFFSET :offset",
             "limit={$limit}&offset={$offset}");
         if ($this->fail() || !$all->rowCount()) {
             return null;
@@ -122,7 +122,7 @@ class Genre extends Model
             return null;
         }
 
-        $this->message->success("Gênero literário removido com sucesso");
+        $this->message->warning("Gênero literário removido com sucesso");
         $this->data = null;
         return $this;
     }

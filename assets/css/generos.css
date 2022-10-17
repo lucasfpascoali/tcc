@@ -24,7 +24,7 @@ main {
     background-color: #fff;
     width: 95%;
     height: 80%;
-    /*border-radius: 10px;*/
+    border-radius: 10px;
 
     display: flex;
     flex-direction: row;
@@ -55,6 +55,16 @@ main {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
+
+    overflow-y: scroll;
+}
+
+.noGenreItens {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 4;
+    justify-content: center;
+    align-items: center;
 }
 
 .genreRow {
@@ -100,4 +110,17 @@ input[type=text], input[type=password] {
 
 input:focus {
     outline: none;
+}
+
+.trigger {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.success {
+    color: #42EE5E;
+}
+
+.warning {
+    color: #FF0000;
 }
