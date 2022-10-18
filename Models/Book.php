@@ -4,24 +4,50 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
-class Student extends Model
+class Book extends Model
 {
     /** @var string[] $safe no update or create */
     protected static array $safe = ["id", "created_at", "updated_at"];
 
     /** @var string $entity database table */
-    protected static string $entity = "students";
+    protected static string $entity = "books";
 
     /** @var string[] $required required fields */
-    protected static array $required = ["first_name", "last_name", "registration", "password", "birth_date"];
+    protected static array $required = ["title", "author", "genre", "book_code"];
 
-    public function bootstrap(string $firstName, string $lastName, string $registration, string $password, string $birthDate): ?Student
-    {
-        $this->first_name = $firstName;
-        $this->last_name = $lastName;
-        $this->registration = $registration;
-        $this->password = $password;
-        $this->birth_date = $birthDate;
+    /**
+     * @param string $title
+     * @param string $author
+     * @param int $genreId
+     * @param int $bookCode
+     * @param string|null $publishingCompany
+     * @param string|null $isbn
+     * @param string|null $synopsis
+     * @param string|null $note
+     * @param int|null $numberOfPages
+     * @return $this|null
+     */
+    public function bootstrap(
+        string $title,
+        string $author,
+        int $genreId,
+        int $bookCode,
+        string $publishingCompany = "",
+        string $isbn = "",
+        string $synopsis = "",
+        string $note = "",
+        ?int $numberOfPages = null
+    ): ?Book {
+        $this->title = $title;
+        $this->author = $author;
+        $this->genre_id = $genreId;
+        $this->book_code = $bookCode;
+        $this->publishing_company = $publishingCompany;
+        $this->isbn = $isbn;
+        $this->synopsis = $synopsis;
+        $this->note = $note;
+        $this->number_of_pages = $numberOfPages;
+        $this->status = 1;
         return $this;
     }
 
@@ -31,7 +57,7 @@ class Student extends Model
      * @param string $columns
      * @return Student|null
      */
-    public function find(string $terms, string $params, string $columns = "*"): ?Student
+    public function find(string $terms, string $params, string $columns = "*"): ?Book
     {
         $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$terms}", $params);
         if ($this->fail() || !$find->rowCount()) {
@@ -44,21 +70,26 @@ class Student extends Model
     /**
      * @param int $id
      * @param string $columns
-     * @return Student|null
+     * @return Book|null
      */
-    public function findById(int $id, string $columns = "*"): ?Student
+    public function findById(int $id, string $columns = "*"): ?Book
     {
         return $this->find("id = :id", "id={$id}", $columns);
     }
 
     /**
-     * @param string $registration
+     * @param string $bookCode
      * @param string $columns
-     * @return Student|null
+     * @return Book|null
      */
-    public function findByRegistration(string $registration, string $columns = "*"): ?Student
+    public function findByBookCode(string $bookCode, string $columns = "*"): ?Book
     {
-        return $this->find("registration = :registration", "registration={$registration}", $columns);
+        return $this->find("book_code = :bc", "bc={$bookCode}", $columns);
+    }
+
+    public function findByISBN(string $isbn, string $columns = "*"): ?Book
+    {
+        return $this->find("isbn = :i", "i={$isbn}", $columns);
     }
 
     /**
@@ -79,30 +110,23 @@ class Student extends Model
     }
 
     /**
-     * @return $this|null
+     * @return Book|null
      */
-    public function save(): ?Student
+    public function save(): ?Book
     {
         if (!$this->required()) {
-            $this->message->warning("Nome, sobrenome, matrícula, senha e data de nascimento são obrigatórios");
+            $this->message->warning("Título, autor e gênero são obrigatórios");
             return null;
         }
 
-        if (!is_passwd($this->password)) {
-            $min = CONF_PASSWD_MIN_LEN;
-            $max = CONF_PASSWD_MAX_LEN;
-            $this->message->warning("A senha deve ter entre {$min} e {$max} caracteres");
-            return null;
-        }
+        // TODO: Fazer método que verifica e cria o código do Livro
 
-        $this->password = passwd($this->password);
-
-        /** Student Update */
+        /** Book Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
-            if ($this->find("registration = :r AND id != :i", "r={$this->registration}&i={$userId}")) {
-                $this->message->warning("A matrícula informada já está cadastrada");
+            if ($this->isbn != "" && $this->find("isbn = :isbn AND id != :i", "isbn={$this->isbn}&i={$userId}")) {
+                $this->message->warning("O isbn informado já está cadastrado");
                 return null;
             }
 
@@ -113,10 +137,10 @@ class Student extends Model
             }
         }
 
-        /** Student Create */
+        /** User Create */
         if (empty($this->id)) {
-            if ($this->findByRegistration($this->registration)) {
-                $this->message->warning("A matrícula informada já está cadastrada");
+            if ($this->isbn != "" && $this->findByISBN($this->isbn)) {
+                $this->message->warning("O ISBN informado já está cadastrado");
                 return null;
             }
 
@@ -134,18 +158,18 @@ class Student extends Model
     /**
      * @return $this|null
      */
-    public function destroy(): ?Student
+    public function destroy(): ?Book
     {
         if (!empty($this->id)) {
             $this->delete(self::$entity, "id = :id", "id={$this->id}");
         }
 
         if ($this->fail()) {
-            $this->message->error("Não foi possível remover o aluno");
+            $this->message->error("Não foi possível remover o livro");
             return null;
         }
 
-        $this->message->success("Aluno removido com sucesso");
+        $this->message->success("Livro removido com sucesso");
         $this->data = null;
         return $this;
     }

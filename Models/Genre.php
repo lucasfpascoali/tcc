@@ -15,6 +15,10 @@ class Genre extends Model
     /** @var string[] $required required fields */
     protected static array $required = ["name"];
 
+    /**
+     * @param string $name
+     * @return $this|null
+     */
     public function bootstrap(string $name): ?Genre
     {
         $this->name = $name;
@@ -25,7 +29,7 @@ class Genre extends Model
      * @param string $terms
      * @param string $params
      * @param string $columns
-     * @return Student|null
+     * @return Genre|null
      */
     public function find(string $terms, string $params, string $columns = "*"): ?Genre
     {
@@ -40,7 +44,7 @@ class Genre extends Model
     /**
      * @param int $id
      * @param string $columns
-     * @return Student|null
+     * @return Genre|null
      */
     public function findById(int $id, string $columns = "*"): ?Genre
     {
@@ -74,7 +78,7 @@ class Genre extends Model
             return null;
         }
 
-        /** Student Update */
+        /** Genre Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
@@ -90,7 +94,7 @@ class Genre extends Model
             }
         }
 
-        /** User Create */
+        /** Genre Create */
         if (empty($this->id)) {
             if ($this->find("name = :n", "n={$this->name}")) {
                 $this->message->warning("Este gênero literário já está cadastrado");

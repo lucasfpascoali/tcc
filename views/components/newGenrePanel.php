@@ -1,4 +1,4 @@
-<form class="newGenrePanel" method="post" action="../Controllers/genreController.php<?= ("?genreID={$genreID}" ?? "") ?>">
+<form class="newGenrePanel" method="post" action="../Controllers/genreController.php<?= ($genreID != null) ? "?genreID={$genreID}" : "" ?>">
     <?php
     if ($message) {
         echo $message->render();

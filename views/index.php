@@ -30,7 +30,7 @@ require __DIR__ . "./components/nav.php";
         <div id="rowBtnPanel">
             <div class="btn-column">
                 <div class="myBtn register-btn">
-                    <a class="full">
+                    <a class="full" href="cadastroLivro.php">
                         <img class="btnIcon" src="../assets/img/btnBook.png"/>
                         <h4>Cadastrar <br> Livros</h4>
                     </a>
