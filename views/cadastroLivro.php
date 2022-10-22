@@ -30,6 +30,7 @@ $genres = $genre->all();
 
 require __DIR__ . "./components/nav.php";
 ?>
+
 <main>
     <h2>Preencha os dados do Livro:</h2>
     <form action="../Controllers/bookController.php" method="post">
@@ -45,30 +46,30 @@ require __DIR__ . "./components/nav.php";
                     <label class="labelInput" for="bookTitle">Título do Livro</label>
                 </div>
                 <div class="inputGroup">
-                    <input id="bookAuthor" class="inputUser" type="text" name="BookAuthor" required>
+                    <input id="bookAuthor" class="inputUser" type="text" name="bookAuthor" required>
                     <label class="labelInput" for="bookAuthor">Autor do Livro</label>
                 </div>
                 <div class="inputGroup">
-                    <input id="publishingCompany" class="inputUser" type="text" name="publishingCompany" required>
+                    <input id="publishingCompany" class="inputUser" type="text" name="publishingCompany">
                     <label class="labelInput" for="publishingCompany">Editora</label>
                 </div>
                 <div class="inputRow">
                     <div class="inputSplit">
-                        <input id="numberOfPages" class="inputUser" type="number" name="numberOfPages" min="1" required>
+                        <input id="numberOfPages" class="inputUser" type="number" name="numberOfPages" min="1">
                         <label class="labelInput" for="numberOfPages">Número de Páginas</label>
                     </div>
                     <div class="inputSplit">
-                        <input id="ISBN" class="inputUser" type="text" name="ISBN" required>
+                        <input id="ISBN" class="inputUser" type="text" name="ISBN" maxlength="13">
                         <label class="labelInput" for="ISBN">ISBN</label>
                     </div>
                 </div>
                 <div id="inputSelect" class="inputGroup">
-                    <label class="labelInput" for="">Gênero Literário:</label>
+                    <p>Gênero Literário:</p>
                     <select name="genreID">
-                    <?php
-                    foreach ($genres as $genre):?>
-                    <option value="<?= $genre->id ?>"><?= $genre->name ?></option>
-                    <?php endforeach; ?>
+                        <?php
+                        foreach ($genres as $genre):?>
+                        <option value="<?= $genre->id ?>"><?= $genre->name ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </section>

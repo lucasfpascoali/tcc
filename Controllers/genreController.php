@@ -20,7 +20,7 @@ if (!$editGenreID) {
 }
 
 if ($genre->save()) {
-    $genre->message()->success('Gênero cadastrado com sucesso');
+    $genre->message()->success('Gênero salvo com sucesso');
 }
 
 $genre->message()->flash();

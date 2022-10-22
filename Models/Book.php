@@ -4,6 +4,9 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
+/**
+ *
+ */
 class Book extends Model
 {
     /** @var string[] $safe no update or create */
@@ -13,13 +16,12 @@ class Book extends Model
     protected static string $entity = "books";
 
     /** @var string[] $required required fields */
-    protected static array $required = ["title", "author", "genre", "book_code"];
+    protected static array $required = ["title", "author", "genre_id"];
 
     /**
      * @param string $title
      * @param string $author
      * @param int $genreId
-     * @param int $bookCode
      * @param string|null $publishingCompany
      * @param string|null $isbn
      * @param string|null $synopsis
@@ -31,7 +33,6 @@ class Book extends Model
         string $title,
         string $author,
         int $genreId,
-        int $bookCode,
         string $publishingCompany = "",
         string $isbn = "",
         string $synopsis = "",
@@ -41,7 +42,6 @@ class Book extends Model
         $this->title = $title;
         $this->author = $author;
         $this->genre_id = $genreId;
-        $this->book_code = $bookCode;
         $this->publishing_company = $publishingCompany;
         $this->isbn = $isbn;
         $this->synopsis = $synopsis;
@@ -87,6 +87,11 @@ class Book extends Model
         return $this->find("book_code = :bc", "bc={$bookCode}", $columns);
     }
 
+    /**
+     * @param string $isbn
+     * @param string $columns
+     * @return Book|null
+     */
     public function findByISBN(string $isbn, string $columns = "*"): ?Book
     {
         return $this->find("isbn = :i", "i={$isbn}", $columns);
@@ -119,8 +124,6 @@ class Book extends Model
             return null;
         }
 
-        // TODO: Fazer método que verifica e cria o código do Livro
-
         /** Book Update */
         if (!empty($this->id)) {
             $userId = $this->id;
@@ -139,9 +142,14 @@ class Book extends Model
 
         /** User Create */
         if (empty($this->id)) {
-            if ($this->isbn != "" && $this->findByISBN($this->isbn)) {
-                $this->message->warning("O ISBN informado já está cadastrado");
-                return null;
+
+            $this->generateBookCode();
+
+            if ($this->isbn != "" && $book = $this->findByISBN($this->isbn)) {
+                if ($this->book_code_letter != $book->book_code_letter || $this->book_code_number != $book->book_code_number) {
+                    $this->message->warning("O ISBN informado já está cadastrado");
+                    return null;
+                }
             }
 
             $userId = $this->create(self::$entity, $this->safe());
@@ -172,5 +180,57 @@ class Book extends Model
         $this->message->success("Livro removido com sucesso");
         $this->data = null;
         return $this;
+    }
+
+    private function generateBookCode(): void
+    {
+        $bookAlreadyExists = $this->find("title = :t && author = :a ORDER BY book_example_number DESC LIMIT 1",
+            "t={$this->title}&a={$this->author}");
+        if (!$bookAlreadyExists) {
+            $this->book_code_letter = $this->generateBookCodeLetter();
+            $this->book_code_number = $this->generateBookCodeNumber();
+            $this->book_example_number = 1;
+        } else {
+            $this->book_code_letter = $bookAlreadyExists->book_code_letter;
+            $this->book_code_number = $bookAlreadyExists->book_code_number;
+            $this->book_example_number = $bookAlreadyExists->book_example_number + 1;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function generateBookCodeLetter(): string
+    {
+        $bookTitle = trim($this->title);
+        $authorName = trim($this->author);
+
+        /* Primeira Letra do Título */
+        $firstDigit = $bookTitle[0];
+
+        /* Primeira Letra do Último Sobrenome do Autor */
+        $authorLastNameStartPosition = strrpos($authorName, " ");
+        if (!$authorLastNameStartPosition) {
+            // Se não há nenhum espaço no nome do autor, logo só temos um nome na string $authorName
+            // Então retornamos direto o primeiro digito
+            return "{$firstDigit}{$authorName[0]}";
+        }
+
+        $lastDigit = $authorName[$authorLastNameStartPosition + 1];
+        return "{$firstDigit}{$lastDigit}";
+    }
+
+    /**
+     * @return int
+     */
+    private function generateBookCodeNumber(): int
+    {
+        $booksWithSameLetterCode = $this->find("book_code_letter = :b ORDER BY book_code_number DESC LIMIT 1",
+            "b={$this->book_code_letter}");
+        if (!$booksWithSameLetterCode) {
+            return 1;
+        }
+
+        return ($booksWithSameLetterCode->book_code_number + 1);
     }
 }

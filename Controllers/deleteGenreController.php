@@ -8,11 +8,12 @@ if (!$genreID) {
     redirect("/views/generos.php");
 }
 
-$genre = new \Source\Models\Genre();
-if (!($genre = $genre->findById($genreID))) {
+$genre = (new \Source\Models\Genre())->findById($genreID);
+if (!$genre) {
     redirect("/views/generos.php");
 }
 
-$genre = $genre->destroy();
+$genre->destroy();
+
 $genre->message()->flash();
 redirect("/views/generos.php");
