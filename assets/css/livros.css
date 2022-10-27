@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background-color: #42EE5E;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main {
+    background-color: #fff;
+    width: 95%;
+    height: 80%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+
+    display: flex;
+}
+
+form {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid #000;
+    padding: 20px;
+    row-gap: 20%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#orderMethod {
+    text-align: center;
+    border-radius: 10px;
+}
+
+.searchOptions {
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: row;
+    row-gap: 15px;
+    column-gap: 20px;
+}
+
+.mainPanel {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.searchPanel {
+    width: 80%;
+    height: 50px;
+    padding: 0 20px 0 20px;
+    border: 1px solid #000;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#searchValue {
+    width: 95%;
+    height: 100%;
+    border: 0;
+    outline: none;
+}
+
+.resultPanel {
+    width: 100%;
+    height: 100%;
+    padding-top: 5%;
+    padding-right: 5px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.resultRow {
+    width: 100%;
+    border-bottom: 1px solid #000;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

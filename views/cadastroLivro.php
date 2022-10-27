@@ -66,6 +66,7 @@ require __DIR__ . "./components/nav.php";
                 <div id="inputSelect" class="inputGroup">
                     <p>Gênero Literário:</p>
                     <select name="genreID">
+                        <option value="null" selected>Sem gênero</option>
                         <?php
                         foreach ($genres as $genre):?>
                         <option value="<?= $genre->id ?>"><?= $genre->name ?></option>

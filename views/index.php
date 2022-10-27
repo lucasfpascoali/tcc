@@ -51,7 +51,7 @@ require __DIR__ . "./components/nav.php";
             <div id="vertical-line"></div>
             <div class="btn-column">
                 <div class="myBtn manage-btn">
-                    <a class="full">
+                    <a class="full" href="./livros.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Livros</h4>
                     </a>

@@ -140,10 +140,11 @@ h2 {
 }
 
 #newLoanIcon {
-    width: 17%;
-    height: 90%;
+    width: 12%;
+    height: auto;
 }
 
 #newLoanText {
+    margin-left: 2%;
     font-size: 2rem;
 }

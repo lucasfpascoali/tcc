@@ -31,8 +31,6 @@ if ($book->save()) {
     $book->message()->success('Livro cadastrado com sucesso');
 }
 
-var_dump($book->message(), $book->fail());
-
-//$book->message()->flash();
-//redirect("views/cadastroLivro.php");
+$book->message()->flash();
+redirect("views/cadastroLivro.php");
 

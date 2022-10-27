@@ -16,7 +16,7 @@ class Book extends Model
     protected static string $entity = "books";
 
     /** @var string[] $required required fields */
-    protected static array $required = ["title", "author", "genre_id"];
+    protected static array $required = ["title", "author"];
 
     /**
      * @param string $title
@@ -49,6 +49,14 @@ class Book extends Model
         $this->number_of_pages = $numberOfPages;
         $this->status = 1;
         return $this;
+    }
+
+    public function getBookCode(): ?string
+    {
+        if (!$this->book_code_letter || !$this->book_code_number || !$this->book_example_number) {
+            return null;
+        }
+        return "{$this->book_code_letter}{$this->book_code_number}{$this->book_example_number}";
     }
 
     /**
@@ -84,7 +92,7 @@ class Book extends Model
      */
     public function findByBookCode(string $bookCode, string $columns = "*"): ?Book
     {
-        return $this->find("book_code = :bc", "bc={$bookCode}", $columns);
+        return $this->find("concat(book_code_letter, book_code_number, book_example_number) = :bc", "bc={$bookCode}", $columns);
     }
 
     /**
@@ -114,6 +122,19 @@ class Book extends Model
         return $all->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public function search(string $searchMethod, string $searchValue, string $orderMethod, string $columns = "*"): ?array
+    {
+        $searchMethod = filter_var($searchMethod, FILTER_SANITIZE_SPECIAL_CHARS);
+        $orderMethod = filter_var($orderMethod, FILTER_SANITIZE_SPECIAL_CHARS);
+        $search = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
+            "sv=%{$searchValue}%");
+        if ($this->fail() || !$search->rowCount()) {
+            return null;
+        }
+
+        return $search->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+    }
+
     /**
      * @return Book|null
      */
@@ -123,6 +144,8 @@ class Book extends Model
             $this->message->warning("Título, autor e gênero são obrigatórios");
             return null;
         }
+
+        $this->generateBookCode();
 
         /** Book Update */
         if (!empty($this->id)) {
@@ -142,8 +165,6 @@ class Book extends Model
 
         /** User Create */
         if (empty($this->id)) {
-
-            $this->generateBookCode();
 
             if ($this->isbn != "" && $book = $this->findByISBN($this->isbn)) {
                 if ($this->book_code_letter != $book->book_code_letter || $this->book_code_number != $book->book_code_number) {
@@ -189,11 +210,11 @@ class Book extends Model
         if (!$bookAlreadyExists) {
             $this->book_code_letter = $this->generateBookCodeLetter();
             $this->book_code_number = $this->generateBookCodeNumber();
-            $this->book_example_number = 1;
+            $this->book_example_number = 'A';
         } else {
             $this->book_code_letter = $bookAlreadyExists->book_code_letter;
             $this->book_code_number = $bookAlreadyExists->book_code_number;
-            $this->book_example_number = $bookAlreadyExists->book_example_number + 1;
+            $this->book_example_number = chr(ord($bookAlreadyExists->book_example_number) + 1);
         }
     }
 
@@ -221,16 +242,16 @@ class Book extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
-    private function generateBookCodeNumber(): int
+    private function generateBookCodeNumber(): string
     {
         $booksWithSameLetterCode = $this->find("book_code_letter = :b ORDER BY book_code_number DESC LIMIT 1",
             "b={$this->book_code_letter}");
         if (!$booksWithSameLetterCode) {
-            return 1;
+            return '001';
         }
 
-        return ($booksWithSameLetterCode->book_code_number + 1);
+        return str_pad(strval(intval($booksWithSameLetterCode->book_code_number) + 1), 3, '0', STR_PAD_LEFT);;
     }
 }
