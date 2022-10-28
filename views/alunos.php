@@ -16,19 +16,28 @@
 </head>
 <body>
 <?php
-require __DIR__ . "/../Controllers/verifyLoginController.php";
-require_once __DIR__ . "/../autoload.php";
+    require __DIR__ . "/../Controllers/verifyLoginController.php";
+    require_once __DIR__ . "/../autoload.php";
 
-require __DIR__ . "./components/nav.php";
+    require __DIR__ . "./components/nav.php";
 
-$searchData = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
-$students = new \Source\Models\Student();
+    $students = new \Source\Models\Student();
+    $session = new \Source\Core\Session();
 
-if ($searchData) {
-    $students = $students->search($searchData['searchMethod'], $searchData['searchValue'], $searchData['orderMethod']);
-} else {
-    $students = $students->all();
-}
+    $selectMode = filter_input(INPUT_GET, 'selectMode', FILTER_VALIDATE_INT);
+    if ($selectMode) {
+        $session->set('studentSelectMode', true);
+    }
+
+    $searchMethod = filter_input(INPUT_GET, 'searchMethod', FILTER_SANITIZE_SPECIAL_CHARS);
+    $searchValue = filter_input(INPUT_GET, 'searchValue', FILTER_SANITIZE_SPECIAL_CHARS);
+    $orderMethod = filter_input(INPUT_GET, 'orderMethod', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    if ($searchMethod && $searchValue && $orderMethod) {
+        $students = $students->search($searchMethod, $searchValue, $orderMethod);
+    } else {
+        $students = $students->all();
+    }
 ?>
 <main>
     <form action="./alunos.php" method="get">
@@ -62,7 +71,7 @@ if ($searchData) {
             <?php
             if ($students) {
                 require __DIR__ . "./components/resultStudentPanel.php";
-            } else if ($searchData) {
+            } else if ($searchMethod || $searchValue || $orderMethod) {
                 echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Nenhum aluno encontrado!</h3></div>";
             } else {
                 echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Não há nenhum aluno cadastrado no sistema!</h3></div>";

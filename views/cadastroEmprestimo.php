@@ -20,28 +20,71 @@
 
     require __DIR__ . "./components/nav.php";
 
+    // Session Preferences Reset
+    $session = new \Source\Core\Session();
+    $session->unset('bookSelectMode');
+    $session->unset('studentSelectMode');
+
     $today = new DateTime();
+
+    $bookID = filter_input(INPUT_GET, 'bookID', FILTER_VALIDATE_INT);
+    if ($bookID) {
+        $session->set('bookID', $bookID);
+    }
+    $studentID = filter_input(INPUT_GET, 'studentID', FILTER_VALIDATE_INT);
+    if ($studentID) {
+        $session->set('studentID', $studentID);
+
+    }
+
+    if ($session->bookID) {
+        $book = (new \Source\Models\Book())->findById($session->bookID);
+    }
+
+    if ($session->studentID) {
+        $student = (new \Source\Models\Student())->findById($session->studentID);
+    }
 ?>
-<main>
+<form action="../Controllers/newLoanController.php" method="post">
     <section class="searchSection">
-        <h4>Clique aqui para selecionar um aluno:</h4>
-        <div class="myBtn register-btn">
-            <a class="full" href="./alunos.php?selectMode=true">
-                <img class="btnIcon" src="../assets/img/btnStudent.png"/>
-            </a>
-        </div>
+        <?php if ($session->studentID) :?>
+            <h4>Aluno selecionado:</h4>
+            <p><?= "Nome: {$student->first_name} {$student->last_name}" ?></p>
+            <p><?= "Matrícula: {$student->registration}" ?></p>
+            <div class="inputGroup">
+                <input id="studentPassword" class="inputUser" type="password" name="studentPassword" required>
+                <label id="studentPassword" class="labelInput" for="loanDate">Senha do Aluno</label>
+            </div>
+            <a style="width: 40%; border: 1px solid #42EE5E; border-radius: 20px; text-align: center; color: #42EE5E" href="./alunos.php?selectMode=1">Trocar Aluno</a>
+        <?php else :?>
+            <h4>Clique aqui para selecionar um aluno:</h4>
+            <div class="myBtn register-btn">
+                <a class="full" href="./alunos.php?selectMode=1">
+                    <img class="btnIcon" src="../assets/img/btnStudent.png"/>
+                </a>
+            </div>
+        <?php endif; ?>
     </section>
     <div class="verticalLine"></div>
     <section class="searchSection">
-        <h4>Clique aqui para selecionar um livro:</h4>
-        <div class="myBtn register-btn">
-            <a class="full" href="./livros.php?selectMode=true">
-                <img style="width: 90%;" class="btnIcon" src="../assets/img/btnBook.png"/>
-            </a>
-        </div>
+        <?php if ($session->bookID) :?>
+            <h4>Livro selecionado:</h4>
+            <p>Título: <?= $book->title ?></p>
+            <p>Autor: <?= $book->author ?></p>
+            <p>Editora: <?= $book->publishing_company ?></p>
+            <p>Código do Livro: <?= $book->getBookCode() ?></p>
+            <a style="width: 40%; border: 1px solid #42EE5E; border-radius: 20px; text-align: center; color: #42EE5E" href="./livros.php?selectMode=1">Trocar Livro</a>
+        <?php else :?>
+            <h4>Clique aqui para selecionar um livro:</h4>
+            <div class="myBtn register-btn">
+                <a class="full" href="./livros.php?selectMode=1">
+                    <img style="width: 90%;" class="btnIcon" src="../assets/img/btnBook.png"/>
+                </a>
+            </div>
+        <?php endif; ?>
     </section>
     <div class="verticalLine"></div>
-    <form class="loanSection" action="../Controllers/newLoanController.php" method="post">
+    <section class="loanSection">
         <h5>Preencha os Dados do Empréstimo:</h5>
         <div class="inputGroup">
             <input id="loanDate" class="inputUser" type="date" name="loanDate" value="<?= $today->format('Y-m-d') ?>" required>
@@ -55,9 +98,14 @@
             <textarea id="obs" name="obs" rows="5" cols="40" maxlength="255"></textarea>
             <label class="labelInput" for="obs">Observação:</label>
         </div>
-        <input type="submit" name="submit" id="cadastrarBtn" value="CADASTRAR LIVRO">
-    </form>
-</main>
+        <?php if ($session->bookID && $session->studentID) :?>
+            <input type="submit" name="submit" id="cadastrarBtn" value="CADASTRAR LIVRO">
+        <?php else :?>
+            <p style="color: #FF0000">Selecione um aluno e um livro primeiro!</p>
+            <input type="submit" name="submit" id="cadastrarBtn" value="CADASTRAR LIVRO" disabled>
+        <?php endif; ?>
+    </section>
+</form>
 
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"

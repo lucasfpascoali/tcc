@@ -30,7 +30,7 @@ require __DIR__ . "./components/nav.php";
 ?>
 <main>
     <h2>Preencha os dados do Aluno:</h2>
-    <form action="../Controllers/studentController.php" method="post">
+    <form action="../Controllers/newStudentController.php" method="post">
         <?php
         if ($message) {
             echo $message->render();

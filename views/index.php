@@ -15,9 +15,18 @@
 </head>
 <body>
 <?php
-require __DIR__ . "/../Controllers/verifyLoginController.php";
+    require __DIR__ . "/../Controllers/verifyLoginController.php";
+    require_once __DIR__ . "/../autoload.php";
 
-require __DIR__ . "./components/nav.php";
+    // Session preferences reset
+    $session = new \Source\Core\Session();
+    $session->unset('bookSelectMode');
+    $session->unset('studentSelectMode');
+    $session->unset('bookID');
+    $session->unset('studentID');
+
+    require __DIR__ . "./components/nav.php";
+
 ?>
 <main>
     <section id="btnPanel">

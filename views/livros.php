@@ -21,11 +21,20 @@
 
     require __DIR__ . "./components/nav.php";
 
-    $searchData = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $books = new \Source\Models\Book();
+    $session = new \Source\Core\Session();
 
-    if ($searchData) {
-        $books = $books->search($searchData['searchMethod'], $searchData['searchValue'], $searchData['orderMethod']);
+    $selectMode = filter_input(INPUT_GET, 'selectMode', FILTER_VALIDATE_INT);
+    if ($selectMode) {
+        $session->set('bookSelectMode', true);
+    }
+
+    $searchMethod = filter_input(INPUT_GET, 'searchMethod', FILTER_SANITIZE_SPECIAL_CHARS);
+    $searchValue = filter_input(INPUT_GET, 'searchValue', FILTER_SANITIZE_SPECIAL_CHARS);
+    $orderMethod = filter_input(INPUT_GET, 'orderMethod', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    if ($searchMethod && $searchValue && $orderMethod) {
+        $books = $books->search($searchMethod, $searchValue, $orderMethod);
     } else {
         $books = $books->all();
     }
@@ -74,7 +83,7 @@
             <?php
                 if ($books) {
                     require __DIR__ . "./components/resultBookPanel.php";
-                } else if ($searchData) {
+                } else if ($searchMethod || $searchValue || $orderMethod) {
                     echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Nenhum livro encontrado!</h3></div>";
                 } else {
                     echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Não há nenhum livro cadastrado no sistema!</h3></div>";

@@ -28,7 +28,7 @@ require __DIR__ . "./components/nav.php";
 ?>
 <main>
     <h2>Preencha os dados do Funcionário:</h2>
-    <form action="../Controllers/userController.php" method="post">
+    <form action="../Controllers/newUserController.php" method="post">
         <?php
         if ($message) {
             echo $message->render();

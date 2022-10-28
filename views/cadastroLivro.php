@@ -33,7 +33,7 @@ require __DIR__ . "./components/nav.php";
 
 <main>
     <h2>Preencha os dados do Livro:</h2>
-    <form action="../Controllers/bookController.php" method="post">
+    <form action="../Controllers/newBookController.php" method="post">
         <?php
         if ($message) {
             echo $message->render();

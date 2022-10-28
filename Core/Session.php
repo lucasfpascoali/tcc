@@ -64,7 +64,9 @@ class Session
      */
     public function unset(string $key): Session
     {
-        unset($_SESSION[$key]);
+        if (!empty($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
         return $this;
     }
 
