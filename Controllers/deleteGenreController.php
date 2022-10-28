@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . './verifyLoginController.php';
 require_once __DIR__ . "/../autoload.php";
 
 $genreID = filter_input(INPUT_GET, "genreID", FILTER_VALIDATE_INT);

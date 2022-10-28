@@ -3,6 +3,8 @@
 require __DIR__ . "/Support/Config.php";
 require __DIR__ . "/Support/Helpers.php";
 
+date_default_timezone_set(CONF_DEFAULT_TIMEZONE);
+
 spl_autoload_register(function ($class) {
     $prefix = "Source\\";
     $baseDir = __DIR__ . "/";

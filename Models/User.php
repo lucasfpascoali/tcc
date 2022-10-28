@@ -66,13 +66,29 @@ class User extends \Source\Core\Model
      */
     public function all(int $limit = 30, int $offset = 0, string $columns = "*"): ?array
     {
-        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " LIMIT :limit OFFSET :offset ",
+        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " ORDER BY first_name, last_name LIMIT :limit OFFSET :offset ",
             "limit={$limit}&offset={$offset}");
         if ($this->fail() || !$all->rowCount()) {
             return null;
         }
 
         return $all->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    public function search(string $searchMethod, string $searchValue, string $orderMethod, string $columns = "*"): ?array
+    {
+        $searchMethod = filter_var($searchMethod, FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($searchMethod == 'name') {
+            $searchMethod = "concat(first_name, ' ', last_name)";
+        }
+        $orderMethod = filter_var($orderMethod, FILTER_SANITIZE_SPECIAL_CHARS);
+        $search = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
+            "sv=%{$searchValue}%");
+        if ($this->fail() || !$search->rowCount()) {
+            return null;
+        }
+
+        return $search->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
     }
 
     /**

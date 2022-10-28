@@ -25,11 +25,9 @@
     $books = new \Source\Models\Book();
 
     if ($searchData) {
-        if ($searchData['searchMethod'] == 'bookCode') {
-            $books = $books->findByBookCode($searchData['searchValue']);
-        } else {
-            $books = $books->search($searchData['searchMethod'], $searchData['searchValue'], $searchData['orderMethod']);
-        }
+        $books = $books->search($searchData['searchMethod'], $searchData['searchValue'], $searchData['orderMethod']);
+    } else {
+        $books = $books->all();
     }
 ?>
 <main>
@@ -70,16 +68,16 @@
         </div>
         <div class="mainPanel">
             <div class="searchPanel">
-                <input id="searchValue" type="search" name="searchValue" placeholder="Pesquisar por..." required>
+                <input autocomplete="off" id="searchValue" type="search" name="searchValue" placeholder="Pesquisar por..." required>
                 <button type="submit" style="border: 0; background-color: transparent; font-size: 24px;"><i class="fa fa-search"></i></button>
             </div>
             <?php
-                if ($searchData && $books) {
+                if ($books) {
                     require __DIR__ . "./components/resultBookPanel.php";
                 } else if ($searchData) {
                     echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Nenhum livro encontrado!</h3></div>";
                 } else {
-                    echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Clique na lupa para pesquisar!</h3></div>";
+                    echo "<div style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><h3>Não há nenhum livro cadastrado no sistema!</h3></div>";
                 }
             ?>
         </div>

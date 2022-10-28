@@ -57,13 +57,13 @@ require __DIR__ . "./components/nav.php";
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
-                    <a class="full">
+                    <a class="full" href="./alunos.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Alunos</h4>
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
-                    <a class="full">
+                    <a class="full" href="./funcionarios.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Funcionários</h4>
                     </a>

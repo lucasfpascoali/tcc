@@ -3,7 +3,8 @@
 use Source\Core\Message;
 use Source\Models\Student;
 
-require __DIR__ . "/../autoload.php";
+require __DIR__ . './verifyLoginController.php';
+require_once __DIR__ . "/../autoload.php";
 
 if (empty($_POST)) {
     $message = (new Message())->warning('Dados incompletos');

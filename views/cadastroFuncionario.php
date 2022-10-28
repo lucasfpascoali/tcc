@@ -28,7 +28,7 @@ require __DIR__ . "./components/nav.php";
 ?>
 <main>
     <h2>Preencha os dados do Funcionário:</h2>
-    <form action="../Controllers/workerController.php" method="post">
+    <form action="../Controllers/userController.php" method="post">
         <?php
         if ($message) {
             echo $message->render();
@@ -43,7 +43,7 @@ require __DIR__ . "./components/nav.php";
             <label class="labelInput" for="workerLastName">Sobrenome do Funcionário</label>
         </div>
         <div class="inputGroup">
-            <input id="workerCpf" class="inputUser" type="text" name="workerCpf" required>
+            <input id="workerCpf" class="inputUser" type="text" name="workerCpf" maxlength="11" required>
             <label class="labelInput" for="workerCpf">CPF do Funcionário</label>
         </div>
         <div class="inputGroup">
