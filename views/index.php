@@ -22,7 +22,7 @@ require __DIR__ . "./components/nav.php";
 <main>
     <section id="btnPanel">
         <div id="newLoanBtn">
-            <a id="newLoanLink">
+            <a href="./cadastroEmprestimo.php" class="full" id="newLoanLink">
                 <img alt="" id="newLoanIcon" src="../assets/img/plusIcon.png"/>
                 <h4 id="newLoanText">Novo Empréstimo</h4>
             </a>
