@@ -94,6 +94,11 @@ class Student extends Model
         return $search->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public function getActiveLoans($orderMethod = 'expected_return_date'): ?array
+    {
+        return (new Loan())->findByStudentId($this->id);
+    }
+
     /**
      * @return $this|null
      */
@@ -113,7 +118,7 @@ class Student extends Model
 
         $this->password = passwd($this->password);
 
-        /** Student Update */
+        /** student Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
@@ -129,7 +134,7 @@ class Student extends Model
             }
         }
 
-        /** Student Create */
+        /** student Create */
         if (empty($this->id)) {
             if ($this->findByRegistration($this->registration)) {
                 $this->message->warning("A matrícula informada já está cadastrada");

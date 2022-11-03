@@ -121,6 +121,7 @@ abstract class Model
                 }
             }
 
+
             $stmt->execute();
             return $stmt;
         } catch (\PDOException $exception) {

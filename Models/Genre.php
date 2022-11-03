@@ -78,7 +78,7 @@ class Genre extends Model
             return null;
         }
 
-        /** Genre Update */
+        /** genre Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
@@ -94,7 +94,7 @@ class Genre extends Model
             }
         }
 
-        /** Genre Create */
+        /** genre Create */
         if (empty($this->id)) {
             if ($this->find("name = :n", "n={$this->name}")) {
                 $this->message->warning("Este gênero literário já está cadastrado");

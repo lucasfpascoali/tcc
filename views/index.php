@@ -15,7 +15,7 @@
 </head>
 <body>
 <?php
-    require __DIR__ . "/../Controllers/verifyLoginController.php";
+    require __DIR__ . "/../Controllers/login/verifyController.php";
     require_once __DIR__ . "/../autoload.php";
 
     // Session preferences reset
@@ -24,6 +24,11 @@
     $session->unset('studentSelectMode');
     $session->unset('bookID');
     $session->unset('studentID');
+    $session->unset('flash');
+
+    // Loans Setup
+    $loan = new \Source\Models\Loan();
+    $loans = $loan->searchActiveLoans();
 
     require __DIR__ . "./components/nav.php";
 
@@ -31,7 +36,7 @@
 <main>
     <section id="btnPanel">
         <div id="newLoanBtn">
-            <a href="./cadastroEmprestimo.php" class="full" id="newLoanLink">
+            <a href="cadastrar/emprestimo.php" class="full" id="newLoanLink">
                 <img alt="" id="newLoanIcon" src="../assets/img/plusIcon.png"/>
                 <h4 id="newLoanText">Novo Empréstimo</h4>
             </a>
@@ -39,19 +44,19 @@
         <div id="rowBtnPanel">
             <div class="btn-column">
                 <div class="myBtn register-btn">
-                    <a class="full" href="cadastroLivro.php">
+                    <a class="full" href="cadastrar/livro.php">
                         <img class="btnIcon" src="../assets/img/btnBook.png"/>
                         <h4>Cadastrar <br> Livros</h4>
                     </a>
                 </div>
                 <div class="myBtn register-btn">
-                    <a class="full" href="./cadastroAluno.php">
+                    <a class="full" href="cadastrar/aluno.php">
                         <img class="btnIcon" src="../assets/img/btnStudent.png"/>
                         <h4>Cadastrar <br> Alunos</h4>
                     </a>
                 </div>
                 <div class="myBtn register-btn">
-                    <a class="full" href="./cadastroFuncionario.php">
+                    <a class="full" href="cadastrar/funcionario.php">
                         <img class="btnIcon" id="workerIcon" src="../assets/img/btnWorker.png"/>
                         <h4>Cadastrar <br> Funcionários</h4>
                     </a>
@@ -60,19 +65,19 @@
             <div id="vertical-line"></div>
             <div class="btn-column">
                 <div class="myBtn manage-btn">
-                    <a class="full" href="./livros.php">
+                    <a class="full" href="buscar/livros.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Livros</h4>
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
-                    <a class="full" href="./alunos.php">
+                    <a class="full" href="buscar/alunos.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Alunos</h4>
                     </a>
                 </div>
                 <div class="myBtn manage-btn">
-                    <a class="full" href="./funcionarios.php">
+                    <a class="full" href="buscar/funcionarios.php">
                         <img class="manageIcon" src="../assets/img/btnManage.png"/>
                         <h4>Gerenciar <br> Funcionários</h4>
                     </a>
@@ -81,9 +86,14 @@
         </div>
     </section>
     <div id="showBtn">
-        <a class="full">
             <h2>Empréstimos em Andamento</h2>
-        </a>
+            <?php
+                if ($loans) {
+                    require __DIR__ . "./components/loanPanel.php";
+                } else {
+                    echo "Nenhum empréstimo em andamento";
+                }
+            ?>
     </div>
 </main>
 <script crossorigin="anonymous"

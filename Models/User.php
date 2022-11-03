@@ -114,7 +114,7 @@ class User extends \Source\Core\Model
 
         $this->password = passwd($this->password);
 
-        /** User Update */
+        /** user Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
@@ -130,7 +130,7 @@ class User extends \Source\Core\Model
             }
         }
 
-        /** User Create */
+        /** user Create */
         if (empty($this->id)) {
             if ($this->findByCpf($this->cpf)) {
                 $this->message->warning("O CPF informado já está cadastrado");

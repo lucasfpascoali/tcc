@@ -145,9 +145,7 @@ class Book extends Model
             return null;
         }
 
-        $this->generateBookCode();
-
-        /** Book Update */
+        /** book Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
@@ -163,8 +161,10 @@ class Book extends Model
             }
         }
 
-        /** User Create */
+        /** user Create */
         if (empty($this->id)) {
+
+            $this->generateBookCode();
 
             if ($this->isbn != "" && $book = $this->findByISBN($this->isbn)) {
                 if ($this->book_code_letter != $book->book_code_letter || $this->book_code_number != $book->book_code_number) {

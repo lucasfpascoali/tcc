@@ -5,7 +5,7 @@
 ?>
 <nav class="navbar navbar-expand-lg navbar bg-white">
     <div class="container-fluid">
-        <h1><a href="./index.php">E.E.B Apolônio Ireno Cardoso</a></h1>
+        <h1><a href="/tcc/src/views/index.php">E.E.B Apolônio Ireno Cardoso</a></h1>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
@@ -16,8 +16,8 @@
                     <ul class="dropdown-menu dropdown-menu">
                         <li><a class="dropdown-item" href="#">Meus Dados</a></li>
                         <li><a class="dropdown-item" href="#">Relatórios</a></li>
-                        <li><a class="dropdown-item" href="./generos.php">Gêneros Literários</a></li>
-                        <li><a class="dropdown-item" href="../Controllers/logOutController.php">Sair</a></li>
+                        <li><a class="dropdown-item" href="/tcc/src/views/editar/generos.php">Gêneros Literários</a></li>
+                        <li><a class="dropdown-item" href="/tcc/src/Controllers/login/logOutController.php">Sair</a></li>
                     </ul>
                 </li>
             </ul>

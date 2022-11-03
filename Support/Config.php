@@ -13,7 +13,7 @@ const CONF_URL_ERROR = CONF_URL_BASE . "/404";
 
 /** DATES */
 const CONF_DEFAULT_TIMEZONE = "America/Sao_Paulo";
-const CONF_DATE_BR = "d/m/Y H:i:s";
+const CONF_DATE_BR = "d/m/Y";
 const CONF_DATE_APP = "Y-m-d H:i:s";
 
 /** SESSION */

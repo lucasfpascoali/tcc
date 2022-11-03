@@ -28,7 +28,7 @@
     }
     ?>
 
-    <form action="../Controllers/loginController.php" method="post">
+    <form action="../Controllers/login/loginController.php" method="post">
         <div class="inputGroup">
             <input class="inputUser" id="userCpf" type="text" name="userCpf" maxlength="11" required>
             <label class="labelInput" for="userCpf">CPF</label>
