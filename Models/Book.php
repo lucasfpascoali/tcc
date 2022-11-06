@@ -59,6 +59,24 @@ class Book extends Model
         return "{$this->book_code_letter}{$this->book_code_number}{$this->book_example_number}";
     }
 
+    public function isBookAvailable(): bool
+    {
+        if ($this->status == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getLoanRemainingDays()
+    {
+        if ($this->isBookAvailable()) {
+            return 'Disponível';
+        }
+
+        $loan = (new Loan())->findByBookId($this->id);
+        return "Em empréstimo: {$loan->renderLoanStatus()}";
+    }
+
     /**
      * @param string $terms
      * @param string $params
@@ -145,12 +163,14 @@ class Book extends Model
             return null;
         }
 
+        $this->generateBookCode();
+
         /** book Update */
         if (!empty($this->id)) {
             $userId = $this->id;
 
             if ($this->isbn != "" && $this->find("isbn = :isbn AND id != :i", "isbn={$this->isbn}&i={$userId}")) {
-                $this->message->warning("O isbn informado já está cadastrado");
+                $this->message->warning("O ISBN informado já está cadastrado");
                 return null;
             }
 
@@ -163,8 +183,6 @@ class Book extends Model
 
         /** user Create */
         if (empty($this->id)) {
-
-            $this->generateBookCode();
 
             if ($this->isbn != "" && $book = $this->findByISBN($this->isbn)) {
                 if ($this->book_code_letter != $book->book_code_letter || $this->book_code_number != $book->book_code_number) {
@@ -205,8 +223,9 @@ class Book extends Model
 
     private function generateBookCode(): void
     {
-        $bookAlreadyExists = $this->find("title = :t && author = :a ORDER BY book_example_number DESC LIMIT 1",
-            "t={$this->title}&a={$this->author}");
+        $bookID = ($this->id ?? 0);
+        $bookAlreadyExists = $this->find("title = :t AND author = :a AND id != :id ORDER BY book_example_number DESC LIMIT 1",
+            "t={$this->title}&a={$this->author}&id={$bookID}");
         if (!$bookAlreadyExists) {
             $this->book_code_letter = $this->generateBookCodeLetter();
             $this->book_code_number = $this->generateBookCodeNumber();
@@ -234,11 +253,11 @@ class Book extends Model
         if (!$authorLastNameStartPosition) {
             // Se não há nenhum espaço no nome do autor, logo só temos um nome na string $authorName
             // Então retornamos direto o primeiro digito
-            return "{$firstDigit}{$authorName[0]}";
+            return mb_strtoupper("{$firstDigit}{$authorName[0]}");
         }
 
         $lastDigit = $authorName[$authorLastNameStartPosition + 1];
-        return "{$firstDigit}{$lastDigit}";
+        return mb_strtoupper("{$firstDigit}{$lastDigit}");
     }
 
     /**
@@ -246,8 +265,9 @@ class Book extends Model
      */
     private function generateBookCodeNumber(): string
     {
-        $booksWithSameLetterCode = $this->find("book_code_letter = :b ORDER BY book_code_number DESC LIMIT 1",
-            "b={$this->book_code_letter}");
+        $bookID = ($this->id ?? 0);
+        $booksWithSameLetterCode = $this->find("book_code_letter = :b AND id != :id ORDER BY book_code_number DESC LIMIT 1",
+            "b={$this->book_code_letter}&id={$bookID}");
         if (!$booksWithSameLetterCode) {
             return '001';
         }

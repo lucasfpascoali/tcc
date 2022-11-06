@@ -2,6 +2,7 @@
     <?php
     $session = new \Source\Core\Session();
 
+    /** @var \Source\Models\Book $book */
     foreach ($books as $book) :?>
         <span class="resultRow">
             <?php if ($session->bookSelectMode) :?>
@@ -15,8 +16,8 @@
                     <a style="margin-bottom: 5px;" class="btn btn-warning" href="#" role="button" >Livro em Empréstimo</a>
                 <?php endif; ?>
             <?php else :?>
-                <p><a href="./cadastroLivro.php?bookID=<?= $book->id ?>"><?= "{$book->title} - {$book->author} ({$book->getBookCode()}) - Situação: " ?>
-                        <?= ($book->status == 1) ? "Disponível"  : "Em Empréstimo" ?></a></p>
+                <p><a href="../editar/livro.php?bookID=<?= $book->id ?>"><?= "{$book->title} - {$book->author} ({$book->getBookCode()}) - Situação: " ?>
+                        <?= $book->getLoanRemainingDays() ?></a></p>
                 <?php if ($book->status == 1) :?>
                     <a onclick="return confirm('Tem certeza que quer excluir este livro?');" style="margin-bottom: 5px;" class="btn btn-danger"
                        href="../../Controllers/book/deleteController.php?bookID=<?= $book->id ?>" role="button">Excluir</a>

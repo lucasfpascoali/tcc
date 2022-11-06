@@ -14,10 +14,10 @@
             </span>
         <?php else :?>
             <span class="resultRow">
-                <p><a href="./cadastroAluno.php?studentID=<?= $student->id ?>"><?= "{$student->first_name} {$student->last_name} - Matrícula: {$student->registration} 
+                <p><a href="../editar/aluno.php?studentID=<?= $student->id ?>"><?= "{$student->first_name} {$student->last_name} - Matrícula: {$student->registration} 
                         - Data de Nascimento: {$dateFormatted->format('d/m/Y')}" ?></a></p>
                 <?php if ($student->getActiveLoans()) :?>
-                    <a onclick="return confirm('Finalize o empréstimo do com esse aluno para poder excluí-lo!');" style="margin-bottom: 5px;" class="btn btn-warning"
+                    <a onclick="return confirm('Não é possível excluir um aluno com empréstimos ativos!');" style="margin-bottom: 5px;" class="btn btn-warning"
                        href="#" role="button">Aluno com Empréstimos Pendentes</a>
                 <?php else :?>
                     <a onclick="return confirm('Tem certeza que quer excluir este aluno?');" style="margin-bottom: 5px;" class="btn btn-danger" href="../../Controllers/student/deleteController.php?studentID=<?= $student->id ?>" role="button">Excluir</a>

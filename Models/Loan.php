@@ -41,7 +41,7 @@ class Loan extends \Source\Core\Model
         $today = new \DateTime('today');
         $expectedDate = new \DateTime($this->expected_return_date);
 
-        return $today->diff($expectedDate)->d;
+        return ($today->diff($expectedDate)->invert ? -1 : $today->diff($expectedDate)->d);
     }
 
     public function renderLoanStatus(): string
@@ -49,13 +49,13 @@ class Loan extends \Source\Core\Model
         $remainingDays = $this->getRemainingDays();
 
         if ($remainingDays > 1) {
-            return "<p style='margin: 0; color: #FFC107; text-align: center;'>{$remainingDays} dias<br> restantes</p>";
+            return "<span style='color: #FFC107; text-align: center;'>{$remainingDays} dias restantes</span>";
         } else if ($remainingDays == 1) {
-            return "<p style='margin: 0; color: #FFC107; text-align: center;'>{$remainingDays} dia<br> restante</p>";
+            return "<span style='color: #FFC107; text-align: center;'>{$remainingDays} dia restante</span>";
         } else if ($remainingDays == 0) {
-            return "<p style='margin: 0; color: #FFC107; text-align: center;'>Último dia<br>do empréstimo</p>";
+            return "<span style='color: #FFC107; text-align: center;'>Último dia do empréstimo</span>";
         } else {
-            return "<p style='margin: 0; color: #FF0000; text-align: center;'>Empréstimo<br>vencido</p>";
+            return "<span style='color: #FF0000; text-align: center;'>Empréstimo vencido</span>";
         }
     }
 
@@ -85,15 +85,26 @@ class Loan extends \Source\Core\Model
         return $this->find("id = :id", "id={$id}", $columns);
     }
 
-    public function findByStudentId(int $student_id, string $orderMethod = "expected_return_date", string $columns = "*"): ?array
+    public function findByStudentId(int $studentId, string $orderMethod = "expected_return_date", string $columns = "*"): ?array
     {
         $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE student_id = :student_id ORDER BY {$orderMethod}",
-        "student_id={$student_id}");
+        "student_id={$studentId}");
         if ($this->fail() || !$find->rowCount()) {
             return null;
         }
 
         return $find->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    public function findByBookId(int $bookId, string $orderMethod = "expected_return_date", string $columns = "*"): ?Loan
+    {
+        $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE book_id = :book_id AND isnull(return_date) ORDER BY {$orderMethod}",
+            "book_id={$bookId}");
+        if ($this->fail() || !$find->rowCount()) {
+            return null;
+        }
+
+        return $find->fetchObject(__CLASS__);
     }
 
     /**

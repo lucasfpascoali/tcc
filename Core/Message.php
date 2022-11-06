@@ -58,7 +58,7 @@ class Message
 
     public function render(): string
     {
-        return "<div class='" . CONF_MESSAGE_CLASS . " {$this->getType()} '>{$this->getText()}</div>";
+        return "<span class='" . CONF_MESSAGE_CLASS . " {$this->getType()} '>{$this->getText()}</span>";
     }
 
     public function renderModal(): string
