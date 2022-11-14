@@ -28,7 +28,7 @@
     }
     ?>
 
-    <form action="../Controllers/login/loginController.php" method="post">
+    <form autocomplete="off" action="../Controllers/login/loginController.php" method="post">
         <div class="inputGroup">
             <input class="inputUser" id="userCpf" type="text" name="userCpf" maxlength="11" required>
             <label class="labelInput" for="userCpf">CPF</label>
@@ -39,7 +39,6 @@
         </div>
         <span id="bottomBtn">
                 <input type="submit" name="login" value="ENTRAR">
-                <p><a id="resetPassword" href="">Esqueceu a senha?</a></p>
         </span>
     </form>
 </main>

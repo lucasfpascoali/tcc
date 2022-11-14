@@ -25,6 +25,9 @@
     $session->unset('bookSelectMode');
     $session->unset('studentSelectMode');
 
+    $message = $session->flash();
+    $modalRedirect = '../buscar/emprestimos.php?loanID=';
+
     $today = new DateTime();
     $expectedDate = (new DateTime())->modify('+15 days');
 
@@ -46,7 +49,7 @@
         $student = (new \Source\Models\Student())->findById($session->studentID);
     }
 ?>
-<form action="../../Controllers/loan/newController.php" method="post">
+<form autocomplete="off" action="../../Controllers/loan/newController.php" method="post">
     <section class="searchSection">
         <?php if ($session->studentID) :?>
             <h4>Aluno selecionado:</h4>
@@ -111,5 +114,10 @@
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../../assets/js/bootstrap.bundle.min.js"></script>
+<?php
+    if ($message) {
+        require __DIR__ . "/../components/feedBackModal.php";
+    }
+?>
 </body>
 </html>

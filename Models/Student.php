@@ -86,7 +86,7 @@ class Student extends Model
         }
         $orderMethod = filter_var($orderMethod, FILTER_SANITIZE_SPECIAL_CHARS);
         $search = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
-            "sv=%{$searchValue}%");
+            "sv={$searchValue}", true);
         if ($this->fail() || !$search->rowCount()) {
             return null;
         }
@@ -96,7 +96,7 @@ class Student extends Model
 
     public function getActiveLoans($orderMethod = 'expected_return_date'): ?array
     {
-        return (new Loan())->findByStudentId($this->id);
+        return (new Loan())->findStudentActiveLoans($this->id);
     }
 
     /**

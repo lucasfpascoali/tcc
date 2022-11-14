@@ -6,6 +6,8 @@ use Source\Models\User;
 require __DIR__ . '/../login/verifyController.php';
 require_once __DIR__ . "/../../autoload.php";
 
+$session = new \Source\Core\Session();
+
 if (empty($_POST)) {
     $message = (new Message())->warning('Dados incompletos');
     $message->flash();
@@ -21,8 +23,9 @@ $worker = (new User())->bootstrap(
     $data['workerPassword']
 );
 
-if ($worker->save()) {
+if ($worker = $worker->save()) {
     $worker->message()->success('Funcionário cadastrado com sucesso');
+    $session->set('tempID', $worker->id);
 }
 
 $worker->message()->flash();

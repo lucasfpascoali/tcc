@@ -31,7 +31,7 @@ if ($searchData) {
 }
 ?>
 <main>
-    <form action="funcionarios.php" method="get">
+    <form autocomplete="off" action="funcionarios.php" method="get">
         <div class="sidebar">
             <span class="searchOptions">
                 <p>Opções de pesquisa:</p>

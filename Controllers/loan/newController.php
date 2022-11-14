@@ -63,8 +63,12 @@ $loan = (new \Source\Models\Loan())->bootstrap(
     $data['obs']
 );
 
-if ($loan->save()) {
+if ($loan = $loan->save()) {
     $loan->message()->success('Empréstimo realizado com sucesso');
+    $book = $loan->getBook();
+    $book->status = 2;
+    $book->save();
+    $session->set('tempID', $loan->id);
 }
 
 $loan->message()->flash();

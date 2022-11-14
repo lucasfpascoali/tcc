@@ -40,7 +40,7 @@
     }
 ?>
 <main>
-    <form action="livros.php" method="get">
+    <form autocomplete="off" action="livros.php" method="get">
         <div class="sidebar">
             <span class="searchOptions">
                 <p>Opções de pesquisa:</p>

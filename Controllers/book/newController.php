@@ -6,6 +6,8 @@ use Source\Models\Book;
 require __DIR__ . '/../login/verifyController.php';
 require_once __DIR__ . "/../../autoload.php";
 
+$session = new \Source\Core\Session();
+
 if (empty($_POST)) {
     $message = (new Message())->warning('Dados incompletos');
     $message->flash();
@@ -28,8 +30,9 @@ $book = (new Book())->bootstrap(
     $data['numberOfPages']
 );
 
-if ($book->save()) {
+if ($book = $book->save()) {
     $book->message()->success('Livro cadastrado com sucesso');
+    $session->set('tempID', $book->id);
 }
 
 $book->message()->flash();

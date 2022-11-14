@@ -24,18 +24,13 @@ require_once __DIR__ . "/../../autoload.php";
 
 $session = new Session();
 $message = $session->flash();
-
+$modalRedirect = '../editar/aluno.php?studentID=';
 
 require __DIR__ . "/../components/nav.php";
 ?>
 <main>
     <h2>Preencha os dados do Aluno:</h2>
-    <form action="../../Controllers/student/newController.php" method="post">
-        <?php
-        if ($message) {
-            echo $message->render();
-        }
-        ?>
+    <form autocomplete="off" action="../../Controllers/student/newController.php" method="post">
         <div class="inputGroup">
             <input id="nomeAluno" class="inputUser" type="text" name="studentFirstName" required>
             <label class="labelInput" for="nomeAluno">Nome do Aluno</label>
@@ -62,5 +57,10 @@ require __DIR__ . "/../components/nav.php";
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../../assets/js/bootstrap.bundle.min.js"></script>
+<?php
+    if ($message) {
+        require __DIR__ . "/../components/feedBackModal.php";
+    }
+?>
 </body>
 </html>

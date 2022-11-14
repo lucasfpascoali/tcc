@@ -27,18 +27,14 @@ $message = $session->flash();
 $genre = new \Source\Models\Genre();
 $genres = $genre->all();
 
+$modalRedirect = '../editar/livro.php?bookID=';
 
 require __DIR__ . "/../components/nav.php";
 ?>
 
 <main>
     <h2>Preencha os dados do Livro:</h2>
-    <form action="../../Controllers/book/newController.php" method="post">
-        <?php
-        if ($message) {
-            echo $message->render();
-        }
-        ?>
+    <form autocomplete="off" action="../../Controllers/book/newController.php" method="post">
         <div class="formInputs">
             <section class="inputSection">
                 <div class="inputGroup">
@@ -91,5 +87,10 @@ require __DIR__ . "/../components/nav.php";
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../../assets/js/bootstrap.bundle.min.js"></script>
+<?php
+if ($message) {
+    require __DIR__ . "/../components/feedBackModal.php";
+}
+?>
 </body>
 </html>

@@ -145,7 +145,7 @@ class Book extends Model
         $searchMethod = filter_var($searchMethod, FILTER_SANITIZE_SPECIAL_CHARS);
         $orderMethod = filter_var($orderMethod, FILTER_SANITIZE_SPECIAL_CHARS);
         $search = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
-            "sv=%{$searchValue}%");
+            "sv={$searchValue}", true);
         if ($this->fail() || !$search->rowCount()) {
             return null;
         }
@@ -242,8 +242,8 @@ class Book extends Model
      */
     private function generateBookCodeLetter(): string
     {
-        $bookTitle = trim($this->title);
-        $authorName = trim($this->author);
+        $bookTitle = str_stripAccents(trim($this->title));
+        $authorName = str_stripAccents(trim($this->author));
 
         /* Primeira Letra do Título */
         $firstDigit = $bookTitle[0];

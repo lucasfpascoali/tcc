@@ -90,13 +90,24 @@
                 if ($loans) {
                     require __DIR__ . "./components/loanPanel.php";
                 } else {
-                    echo "Nenhum empréstimo em andamento";
+                    echo "<div style='width: 100%; height: 75%; display: flex; justify-content: center; align-items: center'><h3>Nenhum empréstimo em andamento</h3></div>";
                 }
             ?>
+            <div class="bottomLoanPanel">
+                <h3><a href="./buscar/emprestimos.php">Ver todos os empréstimos</a></h3>
+            </div>
     </div>
 </main>
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../assets/js/bootstrap.bundle.min.js"></script>
+<?php
+$loanID = filter_input(INPUT_GET, 'loanID', FILTER_VALIDATE_INT);
+if ($loanID && $loans) :?>
+    <script>
+        const myModal = new bootstrap.Modal(document.getElementById('modal<?= $loanID ?>'));
+        myModal.show();
+    </script>
+<?php endif; ?>
 </body>
 </html>

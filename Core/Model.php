@@ -106,7 +106,7 @@ abstract class Model
      * @param string|null $params
      * @return \PDOStatement|null
      */
-    protected function read(string $select, string $params = null): ?\PDOStatement
+    protected function read(string $select, string $params = null, bool $likeMode = false): ?\PDOStatement
     {
         try {
             $stmt = Connect::getInstance()->prepare($select);
@@ -115,6 +115,8 @@ abstract class Model
                 foreach ($params as $key => $value) {
                     if ($key == 'limit' || $key == 'offset') {
                         $stmt->bindValue(":{$key}", $value, \PDO::PARAM_INT);
+                    } else if ($likeMode) {
+                        $stmt->bindValue(":{$key}", "%{$value}%", \PDO::PARAM_STR);
                     } else {
                         $stmt->bindValue(":{$key}", $value, \PDO::PARAM_STR);
                     }

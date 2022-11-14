@@ -41,7 +41,7 @@ class Loan extends \Source\Core\Model
         $today = new \DateTime('today');
         $expectedDate = new \DateTime($this->expected_return_date);
 
-        return ($today->diff($expectedDate)->invert ? -1 : $today->diff($expectedDate)->d);
+        return ($today->diff($expectedDate)->invert ? -1 : $today->diff($expectedDate)->days);
     }
 
     public function renderLoanStatus(): string
@@ -96,6 +96,18 @@ class Loan extends \Source\Core\Model
         return $find->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public function findStudentActiveLoans(int $studentId, string $orderMethod = "expected_return_date", string $columns = "*"): ?array
+    {
+        $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE student_id = :student_id AND isnull(return_date) ORDER BY {$orderMethod}",
+            "student_id={$studentId}");
+        if ($this->fail() || !$find->rowCount()) {
+            return null;
+        }
+
+        return $find->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+    }
+
+
     public function findByBookId(int $bookId, string $orderMethod = "expected_return_date", string $columns = "*"): ?Loan
     {
         $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE book_id = :book_id AND isnull(return_date) ORDER BY {$orderMethod}",
@@ -115,7 +127,7 @@ class Loan extends \Source\Core\Model
      */
     public function all(int $limit = 30, int $offset = 0, string $columns = "*"): ?array
     {
-        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " ORDER BY expected_return_date LIMIT :limit OFFSET :offset ",
+        $all = $this->read("SELECT {$columns} FROM " . self::$entity . " ORDER BY expected_return_date ASC, loan_date DESC, return_date ASC LIMIT :limit OFFSET :offset ",
             "limit={$limit}&offset={$offset}");
         if ($this->fail() || !$all->rowCount()) {
             return null;
@@ -157,7 +169,7 @@ class Loan extends \Source\Core\Model
         }
 
         $search = $this->read("SELECT {$columns} FROM " . self::$entity . " INNER JOIN students on loans.student_id = students.id WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
-            "sv=%{$searchValue}%");
+            "sv={$searchValue}", true);
         if ($this->fail() || !$search->rowCount()) {
             return null;
         }
@@ -175,7 +187,7 @@ class Loan extends \Source\Core\Model
         }
 
         $search = $this->read("SELECT {$columns} FROM " . self::$entity . " INNER JOIN books on loans.book_id = books.id WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
-            "sv=%{$searchValue}%");
+            "sv={$searchValue}", true);
         if ($this->fail() || !$search->rowCount()) {
             return null;
         }
@@ -213,13 +225,6 @@ class Loan extends \Source\Core\Model
                 $this->message->error("Erro ao cadastrar, verifique os dados");
                 return null;
             }
-        }
-
-        $book = (new Book())->findById($this->book_id);
-        $book->status = 2;
-        if (!$book->save()) {
-            $this->message->warning("Erro ao atualizar o livro, tente novamente");
-            return null;
         }
 
         $session = (new Session());

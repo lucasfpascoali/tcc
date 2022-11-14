@@ -1,4 +1,4 @@
-<form class="newGenrePanel" method="post" action="../../Controllers/genre/genreController.php<?= ($genreID != null) ? "?genreID={$genreID}" : "" ?>">
+<form autocomplete="off" class="newGenrePanel" method="post" action="../../Controllers/genre/genreController.php<?= ($genreID != null) ? "?genreID={$genreID}" : "" ?>">
     <?php
     if ($message) {
         echo $message->render();

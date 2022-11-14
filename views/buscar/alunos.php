@@ -41,7 +41,7 @@
     }
 ?>
 <main>
-    <form action="alunos.php" method="get">
+    <form autocomplete="off" action="alunos.php" method="get">
         <div class="sidebar">
             <span class="searchOptions">
                 <p>Opções de pesquisa:</p>

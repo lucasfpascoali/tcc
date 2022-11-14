@@ -6,6 +6,8 @@ use Source\Models\Student;
 require __DIR__ . '/../login/verifyController.php';
 require_once __DIR__ . "/../../autoload.php";
 
+$session = new \Source\Core\Session();
+
 if (empty($_POST)) {
     $message = (new Message())->warning('Dados incompletos');
     $message->flash();
@@ -23,8 +25,9 @@ $student = (new Student())->bootstrap(
 );
 
 
-if ($student->save()) {
+if ($student = $student->save()) {
     $student->message()->success('Aluno cadastrado com sucesso');
+    $session->set('tempID', $student->id);
 }
 
 $student->message()->flash();

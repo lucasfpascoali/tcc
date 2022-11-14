@@ -21,17 +21,20 @@ require_once __DIR__ . "/../../autoload.php";
 
 require __DIR__ . "/../components/nav.php";
 
+$loanID = filter_input(INPUT_GET, 'loanID', FILTER_VALIDATE_INT);
 $searchData = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
 $loans = new \Source\Models\Loan();
 
-if ($searchData) {
+if ($loanID) {
+    $loans = [$loans->findById($loanID)];
+}else if ($searchData) {
     $loans = $loans->search($searchData['searchMethod'], $searchData['searchValue'], $searchData['orderMethod']);
 } else {
     $loans = $loans->all();
 }
 ?>
 <main>
-    <form action="emprestimos.php" method="get">
+    <form autocomplete="off" action="emprestimos.php" method="get">
         <div class="sidebar">
             <span class="searchOptions">
                 <p>Opções de pesquisa:</p>
@@ -88,5 +91,11 @@ if ($searchData) {
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../../assets/js/bootstrap.bundle.min.js"></script>
+<?php if ($loanID && $loans) :?>
+    <script>
+        const myModal = new bootstrap.Modal(document.getElementById('modal<?= $loanID ?>'));
+        myModal.show();
+    </script>
+<?php endif; ?>
 </body>
 </html>

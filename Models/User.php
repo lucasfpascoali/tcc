@@ -83,7 +83,7 @@ class User extends \Source\Core\Model
         }
         $orderMethod = filter_var($orderMethod, FILTER_SANITIZE_SPECIAL_CHARS);
         $search = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$searchMethod} LIKE :sv ORDER BY {$orderMethod}",
-            "sv=%{$searchValue}%");
+            "sv={$searchValue}", true);
         if ($this->fail() || !$search->rowCount()) {
             return null;
         }
@@ -109,7 +109,8 @@ class User extends \Source\Core\Model
         }
 
         if (!is_cpf($this->cpf)) {
-            $this->message->warning("O CPF informado é inválido! Digite apenas números");
+            $this->message->warning("O CPF informado é inválido!");
+            return null;
         }
 
         $this->password = passwd($this->password);

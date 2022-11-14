@@ -31,14 +31,15 @@
         $session = new \Source\Core\Session();
         $session->set('editStudentID', $studentID);
         $message = $session->flash();
+        $modalRedirect = null;
 
         $loans = $student->getActiveLoans();
 
         require __DIR__ . "/../components/nav.php";
     ?>
 <main>
-    <form action="../../Controllers/student/editController.php" method="post">
-        <h2><?= ($message ?? "Atualizar Aluno:") ?></h2>
+    <form autocomplete="off" action="../../Controllers/student/editController.php" method="post">
+        <h2>Atualizar Aluno:</h2>
         <div class="inputRow">
             <div class="inputGroup">
                 <input id="nomeAluno" class="inputUser" type="text" name="studentFirstName" value="<?= $student->first_name ?>" required>
@@ -83,7 +84,45 @@
                             <p>Livro: <?= $book->title ?> (<?= $book->getBookCode(); ?>)</p>
                             <p><?= $loan->renderLoanStatus(); ?></p>
                         </a>
-                        <a style="margin-bottom: 5px; height: 38px" class="btn btn-success" href="../editar/emprestimo.php?loanID=<?= $loan->id ?>" role="button">Visualizar</a>
+                        <button  type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal<?= $loan->id ?>">
+                                Visualizar
+                        </button>
+                        <?php
+
+                        $book = $loan->getBook();
+                        $student = $loan->getStudent();
+
+                        $loanDate = (new DateTime($loan->loan_date))->format(CONF_DATE_BR);
+                        $loanReturnDate = (new DateTime($loan->expected_return_date))->format(CONF_DATE_BR);
+
+                        ?>
+                            <div class="modal fade" id="modal<?= $loan->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Empréstimo em andamento: <?= $loan->renderLoanStatus() ?></h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><a href="#">Aluno: <?= "{$student->first_name} {$student->last_name} - Matrícula: {$student->registration}" ?></a></p>
+                                            <p><a href="./livro.php?bookID=<?= $book->id ?>">Livro: <?= "{$book->title} - Autor: {$book->author} ({$book->getBookCode()}) " ?></a></p>
+                                            <p>Data do Empréstimo: <?= $loanDate ?> </p>
+                                            <p>Empréstimo vence em: <?= $loanReturnDate ?></p>
+                                            <?php if ($loan->obs) :?>
+                                                <div class="inputGroupText">
+                                                    <textarea id="note" name="note" rows="5" cols="40" maxlength="400" readonly><?= $loan->obs ?></textarea>
+                                                    <label class="labelInput" for="note">Observação:</label>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div style="width: 100%; display: flex; justify-content: center;" class="modal-footer">
+                                            <a style="width: 30%" class="btn btn-success" href="../../Controllers/loan/finishController.php?loanID=<?= $loan->id ?>&redirect=aluno" role="button">Finalizar</a>
+                                            <a style="width: 30%; --bs-btn-color: #fff; --bs-btn-hover-color: #fff;" class="btn btn-info" href="../../Controllers/loan/renewController.php?loanID=<?= $loan->id ?>&redirect=aluno" role="button">Renovar </a>
+                                            <a style="width: 30%" class="btn btn-danger" href="../../Controllers/loan/deleteController.php?loanID=<?= $loan->id ?>&redirect=aluno" onclick="return confirm('Tem certeza que quer excluir esse empréstimo?');" role="button">Excluir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </span>
                 <?php endforeach; ?>
             <?php else :?>
@@ -96,5 +135,18 @@
 <script crossorigin="anonymous"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <?php
+        $loanID = filter_input(INPUT_GET, 'loanID', FILTER_VALIDATE_INT);
+        if ($loanID && $loans) :?>
+            <script>
+                const myModal = new bootstrap.Modal(document.getElementById('modal<?= $loanID ?>'));
+                myModal.show();
+            </script>
+    <?php endif; ?>
+    <?php
+    if ($message) {
+        require __DIR__ . "/../components/feedBackModal.php";
+    }
+    ?>
 </body>
 </html>

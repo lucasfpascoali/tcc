@@ -21,6 +21,10 @@ function is_email(string $email): bool
 
 }
 
+/**
+ * @param string $cpf
+ * @return bool
+ */
 function is_cpf(string $cpf): bool
 {
     if (strlen($cpf) != 11 || !is_numeric($cpf)) {
@@ -98,6 +102,11 @@ function csrf_verify($request): bool
  * ##################
  */
 
+
+function str_stripAccents($str): string
+{
+    return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+}
 
 /**
  * @param string $string
