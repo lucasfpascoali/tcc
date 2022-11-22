@@ -170,4 +170,11 @@ class Student extends Model
         $this->data = null;
         return $this;
     }
+
+
+    public function count(): int
+    {
+        $all = $this->read('SELECT * FROM ' . self::$entity);
+        return $all->rowCount();
+    }
 }

@@ -274,4 +274,10 @@ class Book extends Model
 
         return str_pad(strval(intval($booksWithSameLetterCode->book_code_number) + 1), 3, '0', STR_PAD_LEFT);;
     }
+
+    public function count(): int
+    {
+        $all = $this->read('SELECT * FROM ' . self::$entity);
+        return $all->rowCount();
+    }
 }

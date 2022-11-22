@@ -19,7 +19,7 @@
                 <?= $message->getText(); ?>.
             </div>
             <div style="width: 100%; display: flex; justify-content: center;" class="modal-footer">
-                <?php if ($modalRedirect) :?>
+                <?php if ($redirectID) :?>
                     <a class="btn btn-success" href="<?= "{$modalRedirect}{$redirectID}" ?>" role="button">Visualizar</a>
                 <?php endif; ?>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>

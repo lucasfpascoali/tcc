@@ -24,10 +24,9 @@ $student = (new Student())->bootstrap(
     $studentData['studentBirth']
 );
 
-
-if ($student = $student->save()) {
+if ($new = $student->save()) {
     $student->message()->success('Aluno cadastrado com sucesso');
-    $session->set('tempID', $student->id);
+    $session->set('tempID', $new->id);
 }
 
 $student->message()->flash();

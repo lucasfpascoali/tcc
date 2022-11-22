@@ -33,7 +33,7 @@ $redirectLinks = [
 
 $redirect = $redirectLinks[$redirect];
 
-$expectedReturnDate = (new DateTime($loan->expected_return_date))->modify('+15 days');
+$expectedReturnDate = (new DateTime('00:00'))->modify('+15 days');
 $loan->expected_return_date = $expectedReturnDate->format('Y-m-d');
 
 if (!$loan->save()) {

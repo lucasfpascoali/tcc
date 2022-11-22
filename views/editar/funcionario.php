@@ -23,6 +23,7 @@
         $modalRedirect = null;
 
         $user = (new \Source\Models\User())->findById($session->login);
+        $session->unset('tempID');
 
         require __DIR__ . "/../components/nav.php";
     ?>

@@ -25,6 +25,7 @@
     $session->unset('bookID');
     $session->unset('studentID');
     $session->unset('flash');
+    $session->unset('tempID');
 
     // Loans Setup
     $loan = new \Source\Models\Loan();

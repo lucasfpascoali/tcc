@@ -253,4 +253,16 @@ class Loan extends \Source\Core\Model
         $this->data = null;
         return $this;
     }
+
+    public function count(): int
+    {
+        $all = $this->read('SELECT * FROM ' . self::$entity);
+        return $all->rowCount();
+    }
+
+    public function countActive(): int
+    {
+        $all = $this->read("SELECT * FROM " . self::$entity . " WHERE isnull(return_date)");
+        return $all->rowCount();
+    }
 }
